@@ -39,5 +39,8 @@
     </bean>
     
     <bean id="dao" class="suptech.miage.tp3.dao.ProductDao" />
+    <bean id="metier" class="suptech.miage.tp3.metier.ProductMetier">
+        <property name="dao" ref="dao" />
+    </bean>
 
 </beans>
