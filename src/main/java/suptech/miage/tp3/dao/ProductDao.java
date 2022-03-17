@@ -1,33 +1,28 @@
 package suptech.miage.tp3.dao;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 import suptech.miage.tp3.entities.Product;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class ProductDao implements IProductDao{
 
-    private final SessionFactory factory;
+    private final EntityManager em;
 
-    public ProductDao(SessionFactory factory) {
-        this.factory = factory;
+    public ProductDao(EntityManager em) {
+        this.em = em;
     }
 
     @Override @Transactional
     public Product addProduct(Product product) throws Exception {
-        Session session = factory.openSession();
-        session.save(product);
-        session.close();
+        em.persist(product);
         return product;
     }
 
     @Override
     public List<Product> getProducts() throws Exception {
-        Session session = factory.openSession();
-        List<Product> products = session.createQuery("from Product p ").getResultList();
-        session.close();
-        return products;
+        return em.createQuery("from Product p",Product.class).getResultList();
     }
 }
